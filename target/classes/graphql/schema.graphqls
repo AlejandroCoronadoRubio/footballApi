@@ -1,0 +1,38 @@
+type Player {
+
+    id: ID
+    name: String
+    position: String
+    dateOfBirth: String
+    nationality: String
+}
+
+type Team {
+
+    id: ID
+    name: String
+    tla: String
+    shortName: String
+    areaName: String
+    address: String
+    players: [Player]
+}
+
+type Competition {
+
+    id: ID
+    name: String
+    code: String
+    areaName: String
+    teams: [Team]
+}
+
+type Mutation {
+    importLeague(leagueCode: String): Competition
+}
+
+type Query {
+
+    players(leagueCode: String): [Player]
+    team(name: String): Team
+}

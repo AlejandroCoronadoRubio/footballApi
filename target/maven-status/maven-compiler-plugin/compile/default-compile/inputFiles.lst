@@ -1,0 +1,16 @@
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\repository\CompetitionRepository.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\service\PlayerService.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\configuration\RestTemplateConfiguration.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\controller\FootballDataController.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\entity\Team.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\entity\Competition.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\entity\Player.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\dto\CompetitionDTO.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\dto\TeamDTO.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\dto\PlayerDTO.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\service\TeamService.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\repository\PlayerRepository.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\FootballApiApplication.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\repository\TeamRepository.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\service\CompetitionService.java
+C:\Users\jando\IdeaProjects\footballApi\src\main\java\com\santex\footballApi\service\FootballDataService.java
