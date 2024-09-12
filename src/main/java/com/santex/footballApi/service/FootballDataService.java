@@ -3,9 +3,11 @@ package com.santex.footballApi.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.santex.footballApi.dto.CompetitionDTO;
 import com.santex.footballApi.entity.Competition;
 import com.santex.footballApi.entity.Player;
 import com.santex.footballApi.entity.Team;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,22 +24,24 @@ public class FootballDataService {
     private static final Logger logger = LoggerFactory.getLogger(FootballDataService.class);
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final ModelMapper modelMapper;
     private final String xAuthToken;
     private final String competitionsUrl;
     private final CompetitionService competitionService;
 
-    public FootballDataService(RestTemplate restTemplate, ObjectMapper objectMapper,
+    public FootballDataService(RestTemplate restTemplate, ObjectMapper objectMapper, ModelMapper modelMapper,
                                @Value("${footballApi.X-Auth-Token}") String xAuthToken,
                                @Value("${footballApi.competitionsUrl}") String competitionsUrl,
                                CompetitionService competitionService) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.modelMapper = modelMapper;
         this.xAuthToken = xAuthToken;
         this.competitionsUrl = competitionsUrl;
         this.competitionService = competitionService;
     }
 
-    public Competition importCompetitionsAndTeamsByLeagueCode(String leagueCode) {
+    public CompetitionDTO importCompetitionsAndTeamsByLeagueCode(String leagueCode) {
 
         Competition competition = null;
 
@@ -58,7 +62,7 @@ public class FootballDataService {
             logger.error("Error while fetching data from football api on FootballDataService::importCompetitionsAndTeamsByLeagueCode: {}", e.getMessage());
         }
 
-        return competition;
+        return modelMapper.map(competition, CompetitionDTO.class);
     }
 
     private Competition createCompetitionObject(ResponseEntity<String> competitionEntity) throws JsonProcessingException {
@@ -72,6 +76,7 @@ public class FootballDataService {
 
         for(Team team : competition.getTeams()) {
             team.setCompetition(competition);
+            team.getCoach().setTeam(team);
             for(Player player: team.getPlayers()) {
                 player.setTeam(team);
             }

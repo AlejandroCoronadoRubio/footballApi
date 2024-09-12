@@ -1,19 +1,19 @@
 package com.santex.footballApi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "competition")
+@Table(name = "coach")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Coach extends TeamMember {
+public class Coach implements Serializable {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -27,4 +27,9 @@ public class Coach extends TeamMember {
 
     @Column(name = "nationality")
     private String nationality;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "teamId")
+    @JsonIgnore
+    private Team team;
 }

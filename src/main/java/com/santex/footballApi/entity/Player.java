@@ -6,12 +6,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "player")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Player extends TeamMember {
+public class Player implements Serializable {
 
     @Id
     @Column(name = "id", nullable = false)

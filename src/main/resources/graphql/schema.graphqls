@@ -7,6 +7,14 @@ type Player {
     nationality: String
 }
 
+type Coach {
+
+    id: ID
+    name: String
+    dateOfBirth: String
+    nationality: String
+}
+
 type Team {
 
     id: ID
@@ -16,6 +24,7 @@ type Team {
     areaName: String
     address: String
     players: [Player]
+    coach: Coach
 }
 
 type Competition {
@@ -35,4 +44,5 @@ type Query {
 
     players(leagueCode: String): [Player]
     team(name: String): Team
+    competitions: [Competition]
 }

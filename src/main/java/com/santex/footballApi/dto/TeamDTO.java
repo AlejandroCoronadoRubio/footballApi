@@ -19,4 +19,5 @@ public class TeamDTO {
     private String areaName;
     private String address;
     private List<PlayerDTO> players;
+    private CoachDTO coach;
 }

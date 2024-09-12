@@ -27,6 +27,27 @@ mutation {
     name
     code
     areaName
+    teams {
+      id
+      name
+      tla
+      shortName
+      areaName
+      address
+      players {
+        id
+        name
+        dateOfBirth
+        nationality
+        position
+      }
+      coach {
+        id
+        name
+        dateOfBirth
+        nationality
+      }
+    }
   }
 }
 ```
@@ -36,19 +57,65 @@ Available querys:
 ```
 query {
     players(leagueCode: "PD") {
+    id
     name
+    nationality
+    position
+    dateOfBirth
   }
 }
 
 
 query {
     team(name: "Villarreal CF") {
+        id
         name
+        tla
+        shortName
+        areaName
+        address
         players {
+            id
             name
             nationality
             position
             dateOfBirth
+        }
+        coach {
+            id
+            name
+            nationality
+            dateOfBirth
+        }
+    }
+}
+
+query {
+    competitions {
+        id
+        name
+        code
+        areaName
+        teams{
+        id
+        name
+        tla
+        shortName
+        areaName
+        address
+          players {
+              id
+              name
+              nationality
+              position
+              dateOfBirth
+          }
+          coach {
+              id
+              name
+              nationality
+              dateOfBirth
+          }
         }
     }
 }

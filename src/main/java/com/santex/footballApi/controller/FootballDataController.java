@@ -1,8 +1,9 @@
 package com.santex.footballApi.controller;
 
+import com.santex.footballApi.dto.CompetitionDTO;
 import com.santex.footballApi.dto.PlayerDTO;
 import com.santex.footballApi.dto.TeamDTO;
-import com.santex.footballApi.entity.Competition;
+import com.santex.footballApi.service.CompetitionService;
 import com.santex.footballApi.service.FootballDataService;
 import com.santex.footballApi.service.PlayerService;
 import com.santex.footballApi.service.TeamService;
@@ -11,6 +12,8 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+
 @Controller
 public class FootballDataController {
 
@@ -18,15 +21,18 @@ public class FootballDataController {
     private final PlayerService playerService;
     private final TeamService teamService;
 
+    private final CompetitionService competitionService;
 
-    public FootballDataController(FootballDataService footballDataService, PlayerService playerService, TeamService teamService) {
+
+    public FootballDataController(FootballDataService footballDataService, PlayerService playerService, TeamService teamService, CompetitionService competitionService) {
         this.footballDataService = footballDataService;
         this.playerService = playerService;
         this.teamService = teamService;
+        this.competitionService = competitionService;
     }
 
     @MutationMapping
-    public Competition importLeague(@Argument(name = "leagueCode") String leagueCode) {
+    public CompetitionDTO importLeague(@Argument(name = "leagueCode") String leagueCode) {
         return this.footballDataService.importCompetitionsAndTeamsByLeagueCode(leagueCode);
     }
 
@@ -40,4 +46,8 @@ public class FootballDataController {
         return this.teamService.getTeamByName(name);
     }
 
+    @QueryMapping
+    public List<CompetitionDTO> competitions() {
+        return this.competitionService.getCompetitions();
+    }
 }
