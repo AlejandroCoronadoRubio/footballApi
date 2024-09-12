@@ -8,7 +8,7 @@ If you want to debug use the next line instead and attach a debugger using a Rem
 
     mvn spring-boot:run "-Dspring-boot.run.jvmArguments=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"
 
-**Requisitos**
+**Requirements**
 
     Java 17
     
