@@ -25,3 +25,12 @@ CREATE TABLE player (
     teamId BIGINT NULL,
     FOREIGN KEY (teamId) REFERENCES team(id)
 );
+
+CREATE TABLE coach (
+	id BIGINT PRIMARY KEY NOT NULL,
+	name VARCHAR(128) NULL,
+    dateOfBirth VARCHAR(32) NULL,
+    nationality VARCHAR(32) NULL,
+    teamId BIGINT NULL,
+    FOREIGN KEY (teamId) REFERENCES team(id)
+);

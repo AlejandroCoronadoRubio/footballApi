@@ -1,4 +1,12 @@
 package com.santex.footballApi.dto;
 
-public class PlayerDTO {
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class PlayerDTO extends TeamMemberDTO {
+    private String position;
 }

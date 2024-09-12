@@ -1,8 +1,8 @@
 package com.santex.footballApi.controller;
 
+import com.santex.footballApi.dto.PlayerDTO;
+import com.santex.footballApi.dto.TeamDTO;
 import com.santex.footballApi.entity.Competition;
-import com.santex.footballApi.entity.Player;
-import com.santex.footballApi.entity.Team;
 import com.santex.footballApi.service.FootballDataService;
 import com.santex.footballApi.service.PlayerService;
 import com.santex.footballApi.service.TeamService;
@@ -31,14 +31,13 @@ public class FootballDataController {
     }
 
     @QueryMapping
-    public Iterable<Player> players(@Argument(name = "leagueCode") String leagueCode) {
-        //return this.playerService.findPlayersByLeagueCode();
-        return null;
+    public Iterable<PlayerDTO> players(@Argument(name = "leagueCode") String leagueCode) {
+        return this.playerService.getPlayersByLeagueCode(leagueCode);
     }
 
     @QueryMapping
-    public Team team(@Argument(name = "name") String name) {
-        return this.teamService.findTeamByName(name);
+    public TeamDTO team(@Argument(name = "name") String name) {
+        return this.teamService.getTeamByName(name);
     }
 
 }

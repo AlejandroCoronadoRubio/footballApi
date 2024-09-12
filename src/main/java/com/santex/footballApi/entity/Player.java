@@ -6,18 +6,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 @Getter
 @Setter
 @Entity
 @Table(name = "player")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Player implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Player extends TeamMember {
 
     @Id
     @Column(name = "id", nullable = false)

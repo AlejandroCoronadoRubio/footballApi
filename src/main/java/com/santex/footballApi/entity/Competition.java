@@ -10,7 +10,6 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -38,13 +37,6 @@ public class Competition implements Serializable {
     @Column(name = "areaName")
     @JsonIgnore
     private String areaName;
-
-    /*
-    @JsonProperty("area")
-    public void setAreaNameFromJson(Map<String, String> area) {
-        this.areaName = area.get("name");
-    }
-    */
 
     @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
     @JsonProperty("teams")
