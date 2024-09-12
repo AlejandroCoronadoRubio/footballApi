@@ -90,6 +90,7 @@ query {
     }
 }
 
+
 query {
     competitions {
         id
@@ -138,4 +139,4 @@ Available league code:
     CLI | Copa Libertadores
 
 
-This is app uses a free token from https://www.football-data.org/
+This app uses a free token from https://www.football-data.org/
