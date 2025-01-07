@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.santex.footballApi.dto.CompetitionDTO;
 import com.santex.footballApi.entity.Competition;
-import com.santex.footballApi.entity.Player;
-import com.santex.footballApi.entity.Team;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,20 +23,19 @@ public class FootballDataService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final ModelMapper modelMapper;
+    private final CompetitionService competitionService;
     private final String xAuthToken;
     private final String competitionsUrl;
-    private final CompetitionService competitionService;
 
-    public FootballDataService(RestTemplate restTemplate, ObjectMapper objectMapper, ModelMapper modelMapper,
+    public FootballDataService(RestTemplate restTemplate, ObjectMapper objectMapper, ModelMapper modelMapper, CompetitionService competitionService,
                                @Value("${footballApi.X-Auth-Token}") String xAuthToken,
-                               @Value("${footballApi.competitionsUrl}") String competitionsUrl,
-                               CompetitionService competitionService) {
+                               @Value("${footballApi.competitionsUrl}") String competitionsUrl) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
         this.modelMapper = modelMapper;
+        this.competitionService = competitionService;
         this.xAuthToken = xAuthToken;
         this.competitionsUrl = competitionsUrl;
-        this.competitionService = competitionService;
     }
 
     public CompetitionDTO importCompetitionsAndTeamsByLeagueCode(String leagueCode) {
@@ -67,20 +64,18 @@ public class FootballDataService {
 
     private Competition createCompetitionObject(ResponseEntity<String> competitionEntity) throws JsonProcessingException {
 
-        Competition competition = objectMapper.readValue(competitionEntity.getBody(), Competition.class);
-        JsonNode jsonNode = objectMapper.readTree(competitionEntity.getBody());
+        Competition competition = this.objectMapper.readValue(competitionEntity.getBody(), Competition.class);
+        JsonNode jsonNode = this.objectMapper.readTree(competitionEntity.getBody());
         competition.setId(jsonNode.get("competition").get("id").asLong());
         competition.setName(jsonNode.get("competition").get("name").asText());
         competition.setCode(jsonNode.get("competition").get("code").asText());
         competition.setAreaName(jsonNode.get("teams").get(0).get("area").get("name").asText());
 
-        for(Team team : competition.getTeams()) {
+        competition.getTeams().forEach(team -> {
             team.setCompetition(competition);
             team.getCoach().setTeam(team);
-            for(Player player: team.getPlayers()) {
-                player.setTeam(team);
-            }
-        }
+            team.getPlayers().forEach(player -> player.setTeam(team));
+        });
 
         return competition;
     }

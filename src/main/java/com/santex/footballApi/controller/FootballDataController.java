@@ -7,6 +7,7 @@ import com.santex.footballApi.service.CompetitionService;
 import com.santex.footballApi.service.FootballDataService;
 import com.santex.footballApi.service.PlayerService;
 import com.santex.footballApi.service.TeamService;
+import lombok.AllArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -14,22 +15,14 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Controller
 public class FootballDataController {
 
     private final FootballDataService footballDataService;
     private final PlayerService playerService;
     private final TeamService teamService;
-
     private final CompetitionService competitionService;
-
-
-    public FootballDataController(FootballDataService footballDataService, PlayerService playerService, TeamService teamService, CompetitionService competitionService) {
-        this.footballDataService = footballDataService;
-        this.playerService = playerService;
-        this.teamService = teamService;
-        this.competitionService = competitionService;
-    }
 
     @MutationMapping
     public CompetitionDTO importLeague(@Argument(name = "leagueCode") String leagueCode) {

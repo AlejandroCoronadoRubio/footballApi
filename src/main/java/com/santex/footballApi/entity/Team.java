@@ -3,16 +3,14 @@ package com.santex.footballApi.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "team")
 @JsonIgnoreProperties(ignoreUnknown = true)
