@@ -8,15 +8,14 @@ import com.santex.footballApi.service.FootballDataService;
 import com.santex.footballApi.service.PlayerService;
 import com.santex.footballApi.service.TeamService;
 import lombok.AllArgsConstructor;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @AllArgsConstructor
-@Controller
+@RestController
+@RequestMapping("/user")
 public class FootballDataController {
 
     private final FootballDataService footballDataService;
@@ -24,23 +23,23 @@ public class FootballDataController {
     private final TeamService teamService;
     private final CompetitionService competitionService;
 
-    @MutationMapping
-    public CompetitionDTO importLeague(@Argument(name = "leagueCode") String leagueCode) {
-        return this.footballDataService.importCompetitionsAndTeamsByLeagueCode(leagueCode);
+    @PostMapping("/importLeague/{leagueCode}")
+    public ResponseEntity<CompetitionDTO> importLeague(@PathVariable(name = "leagueCode") String leagueCode) {
+        return ResponseEntity.ok(this.footballDataService.importCompetitionsAndTeamsByLeagueCode(leagueCode));
     }
 
-    @QueryMapping
-    public Iterable<PlayerDTO> players(@Argument(name = "leagueCode") String leagueCode) {
-        return this.playerService.getPlayersByLeagueCode(leagueCode);
+    @PostMapping("/players/{leagueCode}")
+    public ResponseEntity<Iterable<PlayerDTO>> players(@PathVariable(name = "leagueCode") String leagueCode) {
+        return ResponseEntity.ok(this.playerService.getPlayersByLeagueCode(leagueCode));
     }
 
-    @QueryMapping
-    public TeamDTO team(@Argument(name = "name") String name) {
-        return this.teamService.getTeamByName(name);
+    @PostMapping("/team/{name}")
+    public ResponseEntity<TeamDTO> team(@PathVariable(name = "name") String name) {
+        return ResponseEntity.ok(this.teamService.getTeamByName(name));
     }
 
-    @QueryMapping
-    public List<CompetitionDTO> competitions() {
-        return this.competitionService.getCompetitions();
+    @GetMapping("/competitions")
+    public ResponseEntity<List<CompetitionDTO>> competitions() {
+        return ResponseEntity.ok(this.competitionService.getCompetitions());
     }
 }
