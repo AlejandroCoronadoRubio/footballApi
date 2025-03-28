@@ -1,12 +1,14 @@
 package com.santex.footballApi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Entity
@@ -26,6 +28,13 @@ public class Competition implements Serializable {
 
     @Column(name = "code")
     private String code;
+
+    @JsonProperty("competition")
+    public void setCompetitionPropertiesFromJson(Map<String, String> competition) {
+        this.id = Long.parseLong(competition.get("id"));
+        this.name = competition.get("name");
+        this.code = competition.get("code");
+    }
 
     @Column(name = "areaName")
     private String areaName;

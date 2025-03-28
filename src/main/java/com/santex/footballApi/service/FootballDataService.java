@@ -5,9 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.santex.footballApi.dto.CompetitionDTO;
 import com.santex.footballApi.entity.Competition;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -16,10 +15,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class FootballDataService {
 
-    private static final Logger logger = LoggerFactory.getLogger(FootballDataService.class);
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final ModelMapper modelMapper;
@@ -43,7 +42,7 @@ public class FootballDataService {
         Competition competition = null;
 
         try {
-            logger.info("Starting fetching data from football api on FootballDataService::importCompetitionsAndTeamsByLeagueCode");
+            log.info("Starting fetching data from football api on FootballDataService::importCompetitionsAndTeamsByLeagueCode");
 
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept(List.of(MediaType.APPLICATION_JSON));
@@ -56,7 +55,7 @@ public class FootballDataService {
             this.competitionService.saveCompetition(competition);
 
         } catch(JsonProcessingException | RestClientException e) {
-            logger.error("Error while fetching data from football api on FootballDataService::importCompetitionsAndTeamsByLeagueCode: {}", e.getMessage());
+            log.error("Error while fetching data from football api on FootballDataService::importCompetitionsAndTeamsByLeagueCode: {}", e.getMessage());
         }
 
         return modelMapper.map(competition, CompetitionDTO.class);
@@ -66,14 +65,13 @@ public class FootballDataService {
 
         Competition competition = this.objectMapper.readValue(competitionEntity.getBody(), Competition.class);
         JsonNode jsonNode = this.objectMapper.readTree(competitionEntity.getBody());
-        competition.setId(jsonNode.get("competition").get("id").asLong());
-        competition.setName(jsonNode.get("competition").get("name").asText());
-        competition.setCode(jsonNode.get("competition").get("code").asText());
         competition.setAreaName(jsonNode.get("teams").get(0).get("area").get("name").asText());
 
         competition.getTeams().forEach(team -> {
             team.setCompetition(competition);
-            team.getCoach().setTeam(team);
+            if(team.getCoach() != null) {
+                team.getCoach().setTeam(team);
+            }
             team.getPlayers().forEach(player -> player.setTeam(team));
         });
 
